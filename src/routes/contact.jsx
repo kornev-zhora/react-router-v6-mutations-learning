@@ -4,6 +4,12 @@ import { getContact, updateContact } from "../contacts";
 
 export async function loader({ params }) {
     const contact = await getContact(params.contactId);
+    if (!contact) {
+        throw new Response("", {
+            status: 404,
+            statusText: "Not Found",
+        });
+    }
     return { contact };
 }
 
@@ -82,7 +88,9 @@ export default function Contact() {
 function Favorite({ contact }) {
     const fetcher = useFetcher();
 
-    const favorite = contact.favorite;
+    const favorite = fetcher.formData
+        ? fetcher.formData.get("favorite") === "true"
+        : contact.favorite;
     return (
         <fetcher.Form method="post">
         <button

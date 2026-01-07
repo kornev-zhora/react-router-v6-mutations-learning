@@ -2,7 +2,7 @@ import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import ErrorPage from "./error-page";
 import Index from "./routes/index";
-import { action as destroyAction } from "./routes/destroy";
+import {action as destroyAction} from "./routes/destroy";
 import Contact, {
     loader as contactLoader,
     action as contactAction,
@@ -29,26 +29,30 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage/>,
         loader: rootLoader,
         action: rootAction,
-        children: [
-            {
-                path: "contacts/:contactId",
-                element: <Contact/>,
-                loader: contactLoader,
-                action: contactAction,
-            },
-            {
-                path: "contacts/:contactId/edit",
-                element: <EditContact />,
-                loader: contactLoader,
-                action: editAction,
-            },
-            {
-                path: "contacts/:contactId/destroy",
-                action: destroyAction,
-            },
-            { index: true, element: <Index /> },
-
+        children: [{
+            errorElement: <ErrorPage/>,
+            children: [
+                {
+                    path: "contacts/:contactId",
+                    element: <Contact/>,
+                    loader: contactLoader,
+                    action: contactAction,
+                },
+                {
+                    path: "contacts/:contactId/edit",
+                    element: <EditContact/>,
+                    loader: contactLoader,
+                    action: editAction,
+                },
+                {
+                    path: "contacts/:contactId/destroy",
+                    action: destroyAction,
+                },
+                {index: true, element: <Index/>},
+            ]
+        }
         ],
+
     },
 ]);
 
